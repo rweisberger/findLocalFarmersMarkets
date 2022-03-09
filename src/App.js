@@ -1,25 +1,82 @@
-import logo from './logo.svg';
+import React from 'react';
+import Axios from 'axios';
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [zip, setZip] = React.useState('12345');
+  const [localMarkets, setLocalMarkets] = React.useState([]);
+  const [marketDetails, setMarketDetails] = React.useState([]);
+
+
+  const handleSubmit = e => {
+    console.log(e);
+    e.preventDefault();
+    console.log(zip);
+    let urlZip= "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=" + zip;
+    console.log(urlZip);
+
+
+  Axios.get(urlZip)
+    .then(
+      (response) => {
+        console.log("Search complete!");
+        console.log(response.data.results); 
+        setLocalMarkets(response.data.results)
+      }
+    );  
+    
+  };
+
+  const formatName = (name) => {
+    let stringName = JSON.stringify(name);
+    let formattedName = stringName.split(' ').slice(1)
+    let reformattedName = formattedName.join(' ').replace('"', '');
+    console.log(reformattedName);
+    return reformattedName
+  }
+
+
+  const getMoreInfo = (id) => {
+    console.log(id);
+    let urlMarketId = "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/mktDetail?id=" + id;
+
+
+    Axios.get(urlMarketId)
+    .then(
+      (response) => {
+        console.log("Search complete!");
+        // console.log(response); 
+        setMarketDetails(response.data.marketdetails) 
+        console.log(response.data.marketdetails);    
+      }
+    );  
+  }
+    
+  return <>
+  <h1>Find Local Farmers Markets</h1>
+    <form onSubmit={handleSubmit}> 
+            <input
+                type="text"
+                className="input"
+                value={zip}
+                placeholder="zip code"
+                onChange={e => setZip(e.target.value)}
+            />
+    </form> 
+   {localMarkets.map((market,i) => 
+      <button type="button"
+          className="market" 
+           key={i} 
+           id={market.id} 
+           onClick={() => getMoreInfo(market.id)}>
+          {formatName(market.marketname)}
+
+            <div className="content">
+            </div>
+      </button>)}
+
+
+  </>
 }
 
 export default App;
