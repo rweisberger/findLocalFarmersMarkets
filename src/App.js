@@ -1,6 +1,9 @@
 import React from 'react';
+// import Collapsible from 'react-collapsible';
 import Axios from 'axios';
 import './App.css';
+
+
 
 function App() {
   const [zip, setZip] = React.useState('12345');
@@ -51,10 +54,10 @@ function App() {
       }
     );  
   }
-    
+  
   return <>
   <h1>Find Local Farmers Markets</h1>
-    <form onSubmit={handleSubmit}> 
+    <form onSubmit={handleSubmit}> Enter a Zip Code: 
             <input
                 type="text"
                 className="input"
@@ -63,6 +66,8 @@ function App() {
                 onChange={e => setZip(e.target.value)}
             />
     </form> 
+    <div>{marketDetails.Address}</div>
+    <div>{marketDetails.Products}</div>
    {localMarkets.map((market,i) => 
       <button type="button"
           className="market" 
@@ -70,11 +75,8 @@ function App() {
            id={market.id} 
            onClick={() => getMoreInfo(market.id)}>
           {formatName(market.marketname)}
-
-            <div className="content">
-            </div>
-      </button>)}
-
+        </button>)}
+        
 
   </>
 }
