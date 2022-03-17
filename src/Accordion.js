@@ -54,10 +54,10 @@ return (
          <div>{formatName(market.marketname)}</div>
          <div>{isActive ? 'Hide' : 'Info'}</div>
        </div>
-       {isActive && <div key={market.id} id={market.id} className="accordion-content">{addressDisplay(marketDetails)}
+       {isActive && <div key={market.id} id={market.id} className="accordion-content"><b>Address: </b>{addressDisplay(marketDetails)}
        <br/>
        <a href= { link } target="_blank">Map</a>
-       <div>{productDisplay(marketDetails)}</div>
+       <div><b>Products: </b>{productDisplay(marketDetails)}</div>
        </div>}
      </div>)}
 

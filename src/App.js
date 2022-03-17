@@ -28,8 +28,8 @@ function App() {
   };
   
   return <>
-  <h1>Find Local Farmers Markets</h1>
-    <form onSubmit={handleSubmit}> Enter a Zip Code: 
+  <h1 className="header">Find Local Farmers Markets</h1>
+    <form className="form" onSubmit={handleSubmit}> Enter a Zip Code: 
             <input
                 type="text"
                 className="input"
