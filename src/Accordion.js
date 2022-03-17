@@ -24,28 +24,41 @@ const Accordion = ({ market, index }) => {
         console.log("Search complete!");
         // console.log(response); 
         setMarketDetails(response.data.marketdetails) 
-        console.log(response.data.marketdetails);      
+        // console.log(response.data.marketdetails);      
         }
     )        
     .then(setIsActive(!isActive)) //to open accordion
   }
-//   return (
-//     <div className="accordion-item">
-//       <div className="accordion-title" onClick={() => setIsActive(!isActive)}>
-//         <div>{title}</div>
-//         <div>{isActive ? 'Hide' : 'Info'}</div>
-//       </div>
-//       {isActive && <div className="accordion-content">{content}</div>}
-//     </div>
-//   );
-// };
+
+  const addressDisplay = (marketDetails) => marketDetails.Address;
+
+  const productDisplay = (marketDetails) => {
+    let products = String(marketDetails.Products)
+    let productArray = products.split(';').join(' |');
+    // let productList = '<li>' + productArray.join('</li><li>') +'</li>'
+    return productArray
+  };
+    
+  let place = String(marketDetails.Address);
+    let editedPlace= place.split(' ').join('+');
+    // console.log(editedPlace);
+    let link ="https://maps.google.com/?q=" + editedPlace;
+    // console.log(link);
+  
+
+ 
+
 return (
  <div className="accordion-item">
        <div className="accordion-title" key={index} id={market.id} onClick={() => getMoreInfo(market.id)}>
          <div>{formatName(market.marketname)}</div>
          <div>{isActive ? 'Hide' : 'Info'}</div>
        </div>
-       {isActive && <div key={market.id} id={market.id} className="accordion-content">{JSON.stringify(marketDetails)}</div>}
+       {isActive && <div key={market.id} id={market.id} className="accordion-content">{addressDisplay(marketDetails)}
+       <br/>
+       <a href= { link } target="_blank">Map</a>
+       <div>{productDisplay(marketDetails)}</div>
+       </div>}
      </div>)}
 
 
